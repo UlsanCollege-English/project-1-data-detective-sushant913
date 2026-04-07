@@ -1,65 +1,79 @@
 """Project 1 starter: Data Detective.
 
-Implement the required functions below.
-Use standard library only.
+Implemented version (beginner friendly).
 """
 
 from __future__ import annotations
-
 from pathlib import Path
+import string
 
 
 def load_text(path: str) -> str:
     """Load and return the full text from a UTF-8 file."""
-    raise NotImplementedError
+    with open(path, "r", encoding="utf-8") as file:
+        return file.read()
 
 
 def normalize_text(text: str) -> str:
-    """Return a normalized version of the text.
-
-    Suggested starter behavior:
-    - lowercase the text
-    - remove or replace punctuation
-    - collapse extra whitespace if helpful
+    """Normalize text:
+    - lowercase
+    - remove punctuation
+    - remove extra spaces
     """
-    raise NotImplementedError
+    text = text.lower()
+
+    # remove punctuation
+    for p in string.punctuation:
+        text = text.replace(p, "")
+
+    # remove extra whitespace
+    text = " ".join(text.split())
+
+    return text
 
 
 def tokenize(text: str) -> list[str]:
-    """Split normalized text into a list of words."""
-    raise NotImplementedError
+    """Split normalized text into words."""
+    return text.split()
 
 
 def count_words(words: list[str]) -> dict[str, int]:
-    """Count how many times each word appears."""
-    raise NotImplementedError
+    """Count word frequency."""
+    counts = {}
+
+    for word in words:
+        if word in counts:
+            counts[word] += 1
+        else:
+            counts[word] = 1
+
+    return counts
 
 
 def top_n_words(counts: dict[str, int], n: int) -> list[tuple[str, int]]:
-    """Return the top N words as (word, count) tuples.
+    """Return top N words sorted by frequency and alphabet."""
+    if n <= 0:
+        return []
 
-    Suggested behavior:
-    - if n <= 0, return []
-    - sort by count descending
-    - for ties, sort alphabetically
-    """
-    raise NotImplementedError
+    # sort: highest count first, then alphabetical
+    sorted_words = sorted(counts.items(), key=lambda x: (-x[1], x[0]))
+
+    return sorted_words[:n]
 
 
 def extra_insight(words: list[str], counts: dict[str, int]) -> object:
-    """Return one extra insight of your choice.
+    """Return words that appear only once."""
+    unique_once = []
 
-    Keep it small and well-defined.
-    Examples:
-    - list of words that appear once
-    - average word length
-    - longest unique word
-    """
-    raise NotImplementedError
+    for word, count in counts.items():
+        if count == 1:
+            unique_once.append(word)
+
+    return unique_once
 
 
 def run_demo(path: str, n: int = 10) -> dict[str, object]:
-    """Run the full analysis pipeline and return summary data."""
+    """Run the full pipeline."""
     text = load_text(path)
     normalized = normalize_text(text)
     words = tokenize(normalized)
@@ -75,8 +89,10 @@ def run_demo(path: str, n: int = 10) -> dict[str, object]:
 
 if __name__ == "__main__":
     demo_path = Path("data/sample.txt")
+
     if demo_path.exists():
         results = run_demo(str(demo_path), n=10)
+
         for key, value in results.items():
             print(f"{key}: {value}")
     else:

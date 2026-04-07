@@ -1,6 +1,6 @@
-"""Project 1 starter: Data Detective.
+"""Project 1: Data Detective.
 
-Implemented version (beginner friendly).
+Final clean implementation (optimized + beginner-friendly).
 """
 
 from __future__ import annotations
@@ -22,9 +22,8 @@ def normalize_text(text: str) -> str:
     """
     text = text.lower()
 
-    # remove punctuation
-    for p in string.punctuation:
-        text = text.replace(p, "")
+    # faster punctuation removal
+    text = text.translate(str.maketrans("", "", string.punctuation))
 
     # remove extra whitespace
     text = " ".join(text.split())
@@ -39,7 +38,7 @@ def tokenize(text: str) -> list[str]:
 
 def count_words(words: list[str]) -> dict[str, int]:
     """Count word frequency."""
-    counts = {}
+    counts: dict[str, int] = {}
 
     for word in words:
         if word in counts:
@@ -55,21 +54,15 @@ def top_n_words(counts: dict[str, int], n: int) -> list[tuple[str, int]]:
     if n <= 0:
         return []
 
-    # sort: highest count first, then alphabetical
+    # sort by frequency DESC, then alphabet ASC
     sorted_words = sorted(counts.items(), key=lambda x: (-x[1], x[0]))
 
     return sorted_words[:n]
 
 
-def extra_insight(words: list[str], counts: dict[str, int]) -> object:
+def extra_insight(counts: dict[str, int]) -> list[str]:
     """Return words that appear only once."""
-    unique_once = []
-
-    for word, count in counts.items():
-        if count == 1:
-            unique_once.append(word)
-
-    return unique_once
+    return [word for word, count in counts.items() if count == 1]
 
 
 def run_demo(path: str, n: int = 10) -> dict[str, object]:
@@ -83,7 +76,7 @@ def run_demo(path: str, n: int = 10) -> dict[str, object]:
         "total_words": len(words),
         "unique_words": len(counts),
         "top_words": top_n_words(counts, n),
-        "extra_insight": extra_insight(words, counts),
+        "extra_insight": extra_insight(counts),
     }
 
 
@@ -93,6 +86,7 @@ if __name__ == "__main__":
     if demo_path.exists():
         results = run_demo(str(demo_path), n=10)
 
+        print("\n=== Data Detective Results ===")
         for key, value in results.items():
             print(f"{key}: {value}")
     else:

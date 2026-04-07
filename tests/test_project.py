@@ -1,4 +1,3 @@
-```python
 """Tests for project.py."""
 
 from src.project import (
@@ -17,12 +16,20 @@ def test_normalize_text_empty_string() -> None:
     assert normalize_text("") == ""
 
 
+def test_normalize_text_mixed_case() -> None:
+    assert normalize_text("PyThOn TeSt") == "python test"
+
+
 def test_tokenize_splits_words() -> None:
     assert tokenize("one two three") == ["one", "two", "three"]
 
 
 def test_tokenize_empty_string() -> None:
     assert tokenize("") == []
+
+
+def test_tokenize_multiple_spaces() -> None:
+    assert tokenize("one   two    three") == ["one", "two", "three"]
 
 
 def test_count_words_counts_repeated_words() -> None:
@@ -32,6 +39,11 @@ def test_count_words_counts_repeated_words() -> None:
 
 def test_count_words_empty_list() -> None:
     assert count_words([]) == {}
+
+
+def test_count_words_all_same() -> None:
+    words = ["a", "a", "a"]
+    assert count_words(words) == {"a": 3}
 
 
 def test_top_n_words_returns_most_common_items() -> None:
@@ -52,3 +64,12 @@ def test_top_n_words_n_larger_than_dict() -> None:
 def test_top_n_words_tie_breaker_alphabetical() -> None:
     counts = {"banana": 2, "apple": 2}
     assert top_n_words(counts, 2) == [("apple", 2), ("banana", 2)]
+
+
+def test_top_n_words_single_element() -> None:
+    counts = {"apple": 5}
+    assert top_n_words(counts, 1) == [("apple", 5)]
+
+
+def test_top_n_words_empty_dict() -> None:
+    assert top_n_words({}, 3) == []

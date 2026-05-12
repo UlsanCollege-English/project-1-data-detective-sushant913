@@ -1,19 +1,40 @@
-[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/cDnlIYNC)
-
 # P1: Data Detective
 
-## Summary
-This project analyzes a text file, processes the text, counts word frequencies, and displays the most common words. It also provides an additional insight into the dataset. The goal is to practice text processing, dictionaries, and basic algorithmic thinking.
+## Project Summary
+
+This project is a text-analysis tool written in Python. The program loads text from a UTF-8 file, normalizes and tokenizes the text, counts word frequencies using dictionaries, and displays the most common words in the dataset. It also provides additional insights such as unique words, longest unique words, and average word length.
+
+The project focuses on practicing clean Python programming, modular function design, testing with `pytest`, dictionaries, and algorithmic thinking.
 
 ---
 
 ## Dataset
-- File: *Hidden Treasures; Or, Why Some Succeed While Others Fail* by :contentReference[oaicite:0]{index=0}  
-- Why I chose it: I chose this dataset from :contentReference[oaicite:1]{index=1} because it is a classic text with rich vocabulary and meaningful content. It provides a good mix of repeated and unique words, making it suitable for frequency analysis.
+
+- **Dataset:** *Hidden Treasures; Or, Why Some Succeed While Others Fail*
+- **Source:** Project Gutenberg
+- **Why I chose it:**  
+  I selected this dataset because it contains rich vocabulary, repeated patterns, and a variety of unique words. This makes it useful for testing word-frequency analysis and text-processing functions. The dataset is also classroom-safe and large enough to demonstrate meaningful results.
 
 ---
 
-## How to run
-```bash
-pytest -q
-python -m src.project
+## Features
+
+The program can:
+
+- load text from a file
+- normalize text by removing punctuation and converting to lowercase
+- tokenize text into words
+- count word frequencies
+- display the top N most common words
+- provide extra insights about the dataset
+
+---
+
+## Project Structure
+
+```text
+src/project.py
+tests/test_project.py
+README.md
+data/sample.txt
+.github/workflows/tests.yml
